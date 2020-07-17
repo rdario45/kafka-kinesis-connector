@@ -7,7 +7,6 @@
 ```bash
 mvn -f offering-stream-consumer-main/pom.xml spring-boot:run -Dspring.config.location=local -Dmaven.test.skip=true -Dserver.port=8081
 ```
-
 Considerations>?
 // In case Streams processing fails, the default case is to bring the application down, which should cause the cluster to
 // relaunch a new application instance. Therefore, this automates the "when in doubt, reboot" methodology.
