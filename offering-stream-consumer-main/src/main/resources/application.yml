@@ -1,0 +1,28 @@
+tm:
+  service:
+    descriptor:
+      name: offering-stream-consumer
+      description: Offering stream consumer
+      distroList: ruslan.pushyn@ticketmaster.com
+      onCallGroup: NONE
+      productCode: PRD2020
+      serviceTier: IMPORTANT
+      documentationLink: todo
+      contractLink: todo
+      runbookLink: todo
+      slack: none
+      tags:
+        - upsell
+        - service
+
+#server:
+#  port: 8080
+#
+#management:
+#  security:
+#    enabled: false
+#  port: 8081
+#  context-path: /manage
+#
+#endpoints:
+#  enabled: true

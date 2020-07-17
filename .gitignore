@@ -1,0 +1,43 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+offering-stream-consumer/logs/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### Maven ###
+mvnw
+mvnw.cmd
+.mvn
+pom.xml.releaseBackup
+release.properties
+**/target
+
+## Eclipse  ##
+.classpath
+.factorypath
+.project
+.settings
+
+
+## terraform
+**/.terrafom

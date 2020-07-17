@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>offering-stream-consumer-main</artifactId>
+    <packaging>jar</packaging>
+    <name>offering-stream-consumer - Main</name>
+    <description>Offerfing Stream Consumer Implementation</description>
+
+    <parent>
+        <artifactId>offering-stream-consumer</artifactId>
+        <groupId>com.ticketmaster.platform</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <aws-java-sdk.version>1.11.313</aws-java-sdk.version>
+        <lombok.version>1.16.18</lombok.version>
+        <tm.tmps-commons-exception.version>1.0.13</tm.tmps-commons-exception.version>
+        <tm.tmps-commons-logging.version>1.3.4</tm.tmps-commons-logging.version>
+        <tm.common-authorization-components.version>1.0.0.0</tm.common-authorization-components.version>
+        <spring-context-support.version>4.1.7.RELEASE</spring-context-support.version>
+        <logstash-logback-encoder.version>4.10</logstash-logback-encoder.version>
+        <fluentd-logback.version>1.2.1</fluentd-logback.version>
+        <junit.version>4.12</junit.version>
+
+        <jacoco-maven-plugin.version>0.8.0</jacoco-maven-plugin.version>
+        <dockerHostIp>localhost</dockerHostIp>
+
+        <amazon.dynamodb.endpoint>http://localhost:8000</amazon.dynamodb.endpoint>
+
+        <!-- sonar -->
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
+        <sonar.language>java</sonar.language>
+        <sonar.host.url>http://sonar.tmaws.io</sonar.host.url>
+        <sonar.coverage.exclusions>
+            **/UpSellApplication.*,
+            **/config/**/*,
+            **/model/**/*
+        </sonar.coverage.exclusions>
+
+        <!-- Jacoco -->
+        <jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
+        <jacoco.out.file>jacoco.exec</jacoco.out.file>
+        <jacoco.out.path>${project.basedir}/../target/</jacoco.out.path>
+        <min.branch.coverage>0</min.branch.coverage>
+        <min.line.coverage>0</min.line.coverage>
+
+        <json-path.version>2.3.0</json-path.version>
+        <s3mock.version>0.2.5</s3mock.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.ticketmaster.springboot</groupId>
+            <artifactId>springboot-foundation-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>${aws-java-sdk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams-test-utils</artifactId>
+            <version>2.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ticketmaster.springboot</groupId>
+            <artifactId>springboot-foundation-starter-management</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ticketmaster.platform</groupId>
+            <artifactId>tmps-commons-exception</artifactId>
+            <version>${tm.tmps-commons-exception.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${json-path.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ticketmaster.platform</groupId>
+            <artifactId>tmps-commons-logging</artifactId>
+            <version>${tm.tmps-commons-logging.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ticketmaster.fluentd.logging</groupId>
+            <artifactId>fluentd-logback</artifactId>
+            <version>${fluentd-logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-logback-encoder.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test-autoconfigure</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-ant</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.findify</groupId>
+            <artifactId>s3mock_2.11</artifactId>
+            <version>${s3mock.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>amazon-kinesis-producer</artifactId>
+            <version>0.14.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ticketmaster.offers-stream</groupId>
+            <artifactId>offers-stream-connector-interfaces</artifactId>
+            <version>0.0.17-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <url>http://maven.platform.tm.tmcs:8081/nexus/content/groups/public/</url>
+        </repository>
+
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+
+        <repository>
+            <id>jcenter</id>
+            <url>http://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.ticketmaster.sponsorship.upsell.UpSellApplication</mainClass>
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <systemProperties combine.children="append">
+                        <property>
+                            <name>user.timezone</name>
+                            <value>UTC</value>
+                        </property>
+                    </systemProperties>
+                    <argLine>-Xms512m -Xmx1024m</argLine>
+                    <argLine>${surefireArgLine}</argLine>
+                    <excludes>
+                        <exclude>**/TestIT.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <propertyName>surefireArgLine</propertyName>
+                            <destFile>${jacoco.out.path}${jacoco.out.file}</destFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${jacoco.out.path}${jacoco.out.file}</dataFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${jacoco.out.path}${jacoco.out.file}</dataFile>
+                            <rules>
+                                <rule implementation="org.jacoco.maven.RuleConfiguration">
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <limit implementation="org.jacoco.report.check.Limit">
+                                            <counter>BRANCH</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>${min.branch.coverage}</minimum>
+                                        </limit>
+                                        <limit implementation="org.jacoco.report.check.Limit">
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>${min.branch.coverage}</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>

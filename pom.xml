@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ticketmaster.platform</groupId>
+    <artifactId>offering-stream-consumer</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>offering-stream-consumer</name>
+    <description>Offering Stream Consumer</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.5.RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>offering-stream-consumer-main</module>
+    </modules>
+
+    <scm>
+        <url>https://git.tmaws.io/sponsorship/upsell/offering-stream-consumer/</url>
+        <connection>scm:git:ssh://git.tmaws.io:sponsorship/upsell/offering-stream-consumer.git</connection>
+        <developerConnection>scm:git:ssh://git@git.tmaws.io/sponsorship/upsell/offering-stream-consumer.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <ciManagement>
+        <system>Gitlab</system>
+        <url>https://git.tmaws.io/</url>
+    </ciManagement>
+
+    <properties>
+        <java.version>1.8</java.version>
+
+        <tm.springboot-foundation.version>1.1.6</tm.springboot-foundation.version>
+        <tm.fluentd-logback.version>1.2.1</tm.fluentd-logback.version>
+        <restassured.version>2.9.0</restassured.version>
+        <assertj.version>3.3.0</assertj.version>
+        <cucumber.version>1.2.5</cucumber.version>
+        <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
+        <!--for IT dynamo run-->
+        <docker-maven-plugin.version>0.20.1</docker-maven-plugin.version>
+
+    </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>Releases</name>
+            <url>http://maven.platform.tm.tmcs:8081/nexus/content/repositories/releases/</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>Snapshots</name>
+            <url>http://maven.platform.tm.tmcs:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- TKM specific -->
+            <dependency>
+                <groupId>com.ticketmaster.springboot</groupId>
+                <artifactId>springboot-foundation-starter-web</artifactId>
+                <version>${tm.springboot-foundation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ticketmaster.springboot</groupId>
+                <artifactId>springboot-foundation-starter-management</artifactId>
+                <version>${tm.springboot-foundation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ticketmaster.springboot</groupId>
+                <artifactId>springboot-foundation-starter-tmps-metric</artifactId>
+                <version>${tm.springboot-foundation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ticketmaster.fluentd.logging</groupId>
+                <artifactId>fluentd-logback</artifactId>
+                <version>${tm.fluentd-logback.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven.release.plugin.version}</version>
+                <configuration>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                    <resume>false</resume>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <dryRun>false</dryRun>
+                    <scmCommentPrefix>[ci skip]</scmCommentPrefix>
+                    <arguments>-Dmaven.test.skip=true -DskipTests</arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
