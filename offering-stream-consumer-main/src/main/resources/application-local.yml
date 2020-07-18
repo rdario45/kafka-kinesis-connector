@@ -1,5 +1,5 @@
 kafka:
-  eventDateStore: prd18__.offering-consumer.event-date-store
+  eventDateStore: prd1865.offering-consumer.event-date-store
   retentionDays: 14
   deleteIntervalMinutes: 1440 # 1 day
   consumerName: offering-stream-consumer-dev1

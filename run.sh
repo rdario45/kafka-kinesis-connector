@@ -1,19 +1,16 @@
 #!/bin/bash
 # entry point
+WORKSPACE=/home/ruben.fernandez/workspace/offering-stream-consumer
 KAFKA_HOME=/opt/kafka
 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$JAVA_HOME/bin:$PATH
-
 # test paths
 java -version
-printf "Kafka version: %s \n" $(kafka-topics.sh --version)
-
-# main loop.
-counter=0
-children=[]
+printf "Kafka version: %s\n" $(kafka-topics.sh --version)
+printf "App workspace: %s\n" $WORKSPACE
+# main app
 while true; do
-  ((++counter))
-  children[0]=$(exec ./kafka-producer.sh $@)
-#  echo "[json]:" && read exit
+  exec ./kafka-console-consumer-interface.sh $@ && exit=$?
+  read $exit
 done
 exit 0

@@ -37,7 +37,3 @@ release.properties
 .factorypath
 .project
 .settings
-
-
-## terraform
-**/.terrafom
