@@ -1,17 +1,17 @@
 kafka:
-  eventDateStore: prd18__.offering-consumer.event-date-store
+  eventDateStore: consumer.event-date-store
   retentionDays: 14
   deleteIntervalMinutes: 1440 # 1 day
-  consumerName: offering-stream-consumer-dev1
-  upsellHostAssignmentsTopic: prd2234.edb.v1.offering.upsell_host_assignments
-  bootstrap-servers: "kf0001.cf.prd349.dev3.datasciences.tmcs:9092,kf0002.cf.prd349.dev3.datasciences.tmcs:9092,kf0003.cf.prd349.dev3.datasciences.tmcs:9092,kf0004.cf.prd349.dev3.datasciences.tmcs:9092,kf0005.cf.prd349.dev3.datasciences.tmcs:9092,kf0006.cf.prd349.dev3.datasciences.tmcs:9092"
+  consumerName: consumer-dev1
+  upsellHostAssignmentsTopic: host_assignments
+  bootstrap-servers: "localhost:9092"
 
 kinesis:
   recordMaxBufferedTime: 100
   maxConnections: 4
   requestTimeout: 6000
   region: us-east-1
-  stream: offering-stream-consumer-dev1
+  stream: stream-consumer-dev1
 
 logging:
   config: classpath:logback-fluent-nonprod.xml
