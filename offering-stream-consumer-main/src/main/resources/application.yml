@@ -1,11 +1,11 @@
 tm:
   service:
     descriptor:
-      name: offering-stream-consumer
-      description: Offering stream consumer
-      distroList: ruslan.pushyn@ticketmaster.com
+      name: stream-consumer
+      description: stream consumer
+      distroList: rp@gmail.com
       onCallGroup: NONE
-      productCode: PRD2020
+      productCode: 2020
       serviceTier: IMPORTANT
       documentationLink: todo
       contractLink: todo
