@@ -1,4 +1,4 @@
-# Offering Stream Consumer
+#  KAFKA KINESIS CONNECTOR FOR JAVA
 
 ## Requirements 
 - java 8+
